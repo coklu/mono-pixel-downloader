@@ -26,7 +26,7 @@ Mono_Pixel Downloader is a high-quality video and audio extraction tool designed
 ## 🚀 How to Use
 
 1. Head to the **[Official Releases](https://github.com/coklu/mono-pixel-downloader/releases)**.
-2. Download `Mono_Pixel_Downloader_Setup.exe` or `Portable.exe`.
+2. Download the version that suits you (Setup for installation, or the Portable .exe).
 3. Paste any YouTube URL into the input field.
 4. Choose your quality and click **INGEST**.
 
