@@ -11,8 +11,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:3000 && tsc -p electron/tsconfig.json && electron .\"",
-        "electron:build": "vite build && tsc -p electron/tsconfig.json && electron-builder",
-        "postinstall": "node scripts/setup-binaries.js"
+        "electron:build": "vite build && tsc -p electron/tsconfig.json && electron-builder"
     },
     "dependencies": {
         "react": "^19.2.3",
@@ -63,7 +62,6 @@
             }
         ],
         "win": {
-            "icon": "logo.bmp",
             "target": [
                 "nsis",
                 "portable"
@@ -74,10 +72,7 @@
             "allowToChangeInstallationDirectory": true,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "Mono_Pixel Downloader",
-            "installerIcon": "logo.bmp",
-            "uninstallerIcon": "logo.bmp",
-            "uninstallDisplayName": "Mono_Pixel Downloader"
+            "shortcutName": "Mono_Pixel Downloader"
         }
     }
 }
