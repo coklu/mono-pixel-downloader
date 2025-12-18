@@ -25,7 +25,7 @@
 
 ## 🚀 Quick Start
 
-1. Go to the [Releases](https://github.com/mono-pixel-downloader/downloader/releases) page.
+1. Go to the [Releases](https://github.com/mono-pixel-downloader/releases) page.
 2. Download `Mono_Pixel_Downloader_Setup.exe` (for installation) or `Mono_Pixel_Downloader_Portable.exe` (for one-time use).
 3. Paste a YouTube URL, analyze, and ingest the stream.
 
