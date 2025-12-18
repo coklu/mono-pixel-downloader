@@ -40,7 +40,7 @@ export interface DownloadStartResponse {
 }
 
 export interface ProgressUpdate {
-    status: 'pending' | 'downloading' | 'transcoding' | 'complete' | 'error';
+    status: 'pending' | 'downloading' | 'transcoding' | 'complete' | 'error' | 'downloading-video' | 'downloading-audio' | 'merging';
     progress: number;
     message?: string;
     actualQuality?: string;
@@ -63,10 +63,11 @@ export async function startDownload(
     url: string,
     type: 'video' | 'audio' | 'image',
     format: string,
-    quality: string
+    quality: string,
+    title?: string
 ): Promise<DownloadStartResponse> {
     if (window.electron) {
-        return await window.electron.invoke('start-download', { url, type, format, quality });
+        return await window.electron.invoke('start-download', { url, type, format, quality, title });
     }
     return { success: false, error: 'Environment is not Electron' };
 }

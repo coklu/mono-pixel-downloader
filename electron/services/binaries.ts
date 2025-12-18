@@ -25,3 +25,9 @@ export function getBinaryPath(binaryName: string): string {
     // Fallback to system path if not found in bundled folder
     return binaryName;
 }
+export function getBinDir(): string {
+    const isProd = app.isPackaged;
+    return isProd
+        ? path.join(process.resourcesPath, 'bin')
+        : path.join(app.getAppPath(), 'bin');
+}

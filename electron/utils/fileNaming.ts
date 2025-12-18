@@ -14,10 +14,14 @@ export function isValidYouTubeUrl(url: string): boolean {
     return extractVideoId(url) !== null;
 }
 
-export function generateFileName(videoId: string, format: string, quality: string): string {
-    const safeVideoId = videoId.replace(/[^a-zA-Z0-9_-]/g, '');
+export function sanitizeFilename(filename: string): string {
+    return filename.replace(/[<>:"/\\|?*]/g, '_').trim();
+}
+
+export function generateFileName(videoId: string, format: string, quality: string, title?: string): string {
+    const safeTitle = title ? sanitizeFilename(title) : `youtube_${videoId}`;
     const safeFormat = format.toLowerCase().replace(/[^a-z0-9]/g, '');
     const safeQuality = quality.toLowerCase().replace(/[^a-z0-9]/g, '');
     const ext = format.toLowerCase();
-    return `youtube_${safeVideoId}_${safeFormat}_${safeQuality}.${ext}`;
+    return `${safeTitle}_${safeQuality}.${ext}`;
 }

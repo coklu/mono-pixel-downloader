@@ -42,8 +42,13 @@ export function runYtdlpDownload(args: string[], onProgress?: (p: number) => voi
         const proc = spawn(binary, args);
         let stderr = '';
         proc.stdout.on('data', (data) => {
-            const match = data.toString().match(/\[download\]\s+(\d+\.?\d*)%/);
-            if (match && onProgress) onProgress(parseFloat(match[1]));
+            const lines = data.toString().split('\n');
+            for (const line of lines) {
+                const match = line.match(/\[download\]\s+(\d+\.?\d*)%/);
+                if (match && onProgress) {
+                    onProgress(parseFloat(match[1]));
+                }
+            }
         });
         proc.stderr.on('data', (d) => stderr += d.toString());
         proc.on('close', (code) => {

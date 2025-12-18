@@ -1,7 +1,8 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { fetchVideoInfo as getVideoInfo, validateUrl, startDownload, deleteJob } from './services/downloader.js';
+import { fetchVideoInfo as getVideoInfo, validateUrl, startDownload, deleteJob, extractVideoId } from './services/downloader.js';
+import { generateFileName } from './utils/fileNaming.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -71,11 +72,14 @@ ipcMain.handle('analyze-url', async (event, url) => {
     }
 });
 
-ipcMain.handle('start-download', async (event, { url, type, format, quality }) => {
+ipcMain.handle('start-download', async (event, { url, type, format, quality, title }) => {
     try {
+        const videoId = extractVideoId(url)!;
+        const defaultName = generateFileName(videoId, format, quality, title);
+
         const { filePath } = await dialog.showSaveDialog(mainWindow!, {
             title: 'Select Download Location',
-            defaultPath: path.join(app.getPath('downloads'), `youtube_download.${format.toLowerCase()}`),
+            defaultPath: path.join(app.getPath('downloads'), defaultName),
         });
         if (!filePath) return { success: false, error: 'Download cancelled' };
 

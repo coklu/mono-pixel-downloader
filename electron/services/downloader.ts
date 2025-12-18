@@ -39,10 +39,22 @@ export async function startDownload(req: DownloadRequest, out: string, onUpdate:
                 const quality = findBestVideoQuality(info.availableQualities, req.quality)!;
                 const tmpV = path.join(TEMP_DIR, `${info.id}_v_${Date.now()}.mp4`);
                 const tmpA = path.join(TEMP_DIR, `${info.id}_a_${Date.now()}.webm`);
-                await runYtdlpDownload(['-f', `bestvideo[height<=${parseInt(quality)}]`, '-o', tmpV, req.url], (p) => onUpdate({ status: 'downloading', progress: p * 0.3, actualQuality: quality }));
-                await runYtdlpDownload(['-f', 'bestaudio', '-o', tmpA, req.url], (p) => onUpdate({ status: 'downloading', progress: 30 + p * 0.2, actualQuality: quality }));
-                onUpdate({ status: 'transcoding', progress: 50, actualQuality: quality });
-                await muxVideoAudio(tmpV, tmpA, out, (p) => onUpdate({ status: 'transcoding', progress: 50 + p * 0.5, actualQuality: quality }));
+
+                // Stage 1: Video (85% of total work)
+                onUpdate({ status: 'downloading-video', progress: 0, actualQuality: quality });
+                await runYtdlpDownload(['-f', `bestvideo[height<=${parseInt(quality)}]`, '-o', tmpV, req.url],
+                    (p) => onUpdate({ status: 'downloading-video', progress: p * 0.85, actualQuality: quality }));
+
+                // Stage 2: Audio (10% of total work)
+                onUpdate({ status: 'downloading-audio', progress: 85, actualQuality: quality });
+                await runYtdlpDownload(['-f', 'bestaudio', '-o', tmpA, req.url],
+                    (p) => onUpdate({ status: 'downloading-audio', progress: 85 + (p * 0.10), actualQuality: quality }));
+
+                // Stage 3: Muxing/Transcoding (Final 5%)
+                onUpdate({ status: 'merging', progress: 95, actualQuality: quality });
+                await muxVideoAudio(tmpV, tmpA, out,
+                    (p) => onUpdate({ status: 'merging', progress: 95 + (p * 0.05), actualQuality: quality }));
+
                 cleanupTempFiles(tmpV, tmpA);
             }
             onUpdate({ status: 'complete', progress: 100 });

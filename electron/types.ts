@@ -1,5 +1,5 @@
 // Re-exporting types for Electron
-export type DownloadStatus = 'pending' | 'downloading' | 'transcoding' | 'complete' | 'error';
+export type DownloadStatus = 'pending' | 'downloading' | 'transcoding' | 'complete' | 'error' | 'downloading-video' | 'downloading-audio' | 'merging';
 export type VideoQuality = '2160p' | '1440p' | '1080p' | '720p' | '480p' | '360p' | '240p' | '144p';
 export type AudioBitrate = '128kbps' | '96kbps' | '64kbps' | '48kbps';
 export type AudioFormat = 'MP3' | 'OPUS' | 'AAC';

@@ -110,7 +110,7 @@ const DownloaderSection: React.FC = () => {
       quality = format.rate;
     }
 
-    const result = await apiStartDownload(url, type, format.ext, quality);
+    const result = await apiStartDownload(url, type, format.ext, quality, videoInfo.title);
 
     if (result.success && result.jobId) {
       setJobId(result.jobId);
@@ -125,10 +125,12 @@ const DownloaderSection: React.FC = () => {
             setActualQuality(update.actualQuality);
           }
 
-          if (update.status === 'downloading') {
-            setStatusMessage('DOWNLOADING_STREAM...');
-          } else if (update.status === 'transcoding') {
-            setStatusMessage('TRANSCODING_DATA...');
+          if (update.status === 'downloading' || update.status === 'downloading-video') {
+            setStatusMessage('DOWNLOADING_VIDEO...');
+          } else if (update.status === 'downloading-audio') {
+            setStatusMessage('DOWNLOADING_AUDIO...');
+          } else if (update.status === 'transcoding' || update.status === 'merging') {
+            setStatusMessage('MERGING_STREAMS...');
           } else if (update.status === 'complete') {
             setStage(DownloadStage.COMPLETE);
             sounds.success();
@@ -151,6 +153,16 @@ const DownloaderSection: React.FC = () => {
   const handleDownloadFile = () => {
     // In Electron, the file is already saved where the user chose during startDownload
     reset();
+    sounds.click();
+  };
+
+  const handleGoBack = () => {
+    setStage(DownloadStage.SELECTING);
+    setProgress(0);
+    setJobId(null);
+    setError(null);
+    setStatusMessage('');
+    setActualQuality(null);
     sounds.click();
   };
 
@@ -367,6 +379,7 @@ const DownloaderSection: React.FC = () => {
           </div>
 
           <div className="flex flex-col gap-4">
+            <PixelButton onClick={handleGoBack} className="!border-white !text-white hover:!bg-white/10">CHANGE_FORMAT</PixelButton>
             <PixelButton onClick={handleDownloadFile} className="!bg-white !text-black">CONVERT_ANOTHER</PixelButton>
           </div>
         </div>
