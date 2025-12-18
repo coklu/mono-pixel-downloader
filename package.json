@@ -63,7 +63,7 @@
             }
         ],
         "win": {
-            "icon": "build/logo.png",
+            "icon": "build/logo.ico",
             "target": [
                 "nsis",
                 "portable"
@@ -75,8 +75,8 @@
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
             "shortcutName": "Mono_Pixel Downloader",
-            "installerIcon": "build/logo.png",
-            "uninstallerIcon": "build/logo.png"
+            "installerIcon": "build/logo.ico",
+            "uninstallerIcon": "build/logo.ico"
         }
     }
 }
