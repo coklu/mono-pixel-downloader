@@ -63,6 +63,7 @@
             }
         ],
         "win": {
+            "icon": "logo.bmp",
             "target": [
                 "nsis",
                 "portable"
@@ -73,7 +74,10 @@
             "allowToChangeInstallationDirectory": true,
             "createDesktopShortcut": true,
             "createStartMenuShortcut": true,
-            "shortcutName": "Mono_Pixel Downloader"
+            "shortcutName": "Mono_Pixel Downloader",
+            "installerIcon": "logo.bmp",
+            "uninstallerIcon": "logo.bmp",
+            "uninstallDisplayName": "Mono_Pixel Downloader"
         }
     }
 }
