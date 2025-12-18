@@ -1,0 +1,79 @@
+{
+    "name": "mono-pixel-downloader",
+    "private": true,
+    "version": "1.0.0",
+    "description": "A high-quality YouTube video downloader with 4K support.",
+    "author": "Mono Pixel",
+    "type": "module",
+    "main": "dist-main/main.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:3000 && tsc -p electron/tsconfig.json && electron .\"",
+        "electron:build": "vite build && tsc -p electron/tsconfig.json && electron-builder",
+        "postinstall": "node scripts/setup-binaries.js"
+    },
+    "dependencies": {
+        "react": "^19.2.3",
+        "react-dom": "^19.2.3",
+        "uuid": "^10.0.0"
+    },
+    "devDependencies": {
+        "@types/electron-builder": "^2.0.29",
+        "@types/node": "^22.14.0",
+        "@types/uuid": "^10.0.0",
+        "@vitejs/plugin-react": "^5.0.0",
+        "concurrently": "^9.2.1",
+        "electron": "^33.2.1",
+        "electron-builder": "^25.1.8",
+        "typescript": "~5.8.2",
+        "vite": "^6.2.0",
+        "wait-on": "^8.0.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/coklu/mono-pixel-downloader.git"
+    },
+    "build": {
+        "appId": "com.monopixel.downloader",
+        "productName": "Mono_Pixel YouTube Downloader",
+        "directories": {
+            "output": "dist-electron"
+        },
+        "publish": [
+            {
+                "provider": "github",
+                "owner": "coklu",
+                "repo": "mono-pixel-downloader"
+            }
+        ],
+        "files": [
+            "dist/**/*",
+            "dist-main/**/*",
+            "electron/preload.cjs"
+        ],
+        "extraResources": [
+            {
+                "from": "bin",
+                "to": "bin",
+                "filter": [
+                    "**/*"
+                ]
+            }
+        ],
+        "win": {
+            "target": [
+                "nsis",
+                "portable"
+            ]
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "Mono_Pixel Downloader"
+        }
+    }
+}

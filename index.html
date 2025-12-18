@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MONO-PIXEL | YouTube Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        font-family: 'Silkscreen', cursive;
+        image-rendering: pixelated;
+        cursor: none !important; /* Hide default cursor */
+      }
+      
+      body {
+        background-color: #000000;
+        color: #FFFFFF;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Pixel Border Utilities - Inverted for Black Theme */
+      .pixel-border-white {
+        box-shadow: 
+          4px 0 0 0 #fff,
+          -4px 0 0 0 #fff,
+          0 4px 0 0 #fff,
+          0 -4px 0 0 #fff;
+        border: 4px solid #fff;
+      }
+
+      .pixel-border-black {
+        box-shadow: 
+          4px 0 0 0 #000,
+          -4px 0 0 0 #000,
+          0 4px 0 0 #000,
+          0 -4px 0 0 #000;
+        border: 4px solid #000;
+      }
+
+      .pixel-button-shadow-white {
+        box-shadow: 4px 4px 0 0 #fff;
+      }
+      
+      .pixel-button-shadow-white:active {
+        box-shadow: 0px 0px 0 0 #fff;
+        transform: translate(4px, 4px);
+      }
+
+      @keyframes pixel-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+      .pixel-bounce {
+        animation: pixel-bounce 1s steps(4) infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+      .cursor-blink {
+        animation: blink 0.8s steps(1) infinite;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #000;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #fff;
+        border: 2px solid #000;
+      }
+
+      /* Interactive state for the custom cursor (handled in JS/React) */
+      .is-interactive {
+        /* Utility class to flag interactive elements for cursor detection */
+      }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+      }
+    }
+    </script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
