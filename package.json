@@ -11,8 +11,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:3000 && tsc -p electron/tsconfig.json && electron .\"",
-        "electron:build": "vite build && tsc -p electron/tsconfig.json && electron-builder --publish always",
-        "postinstall": "node scripts/setup-binaries.js"
+        "electron:build": "vite build && tsc -p electron/tsconfig.json && electron-builder --publish always"
     },
     "dependencies": {
         "react": "^19.2.3",
@@ -76,8 +75,7 @@
             "createStartMenuShortcut": true,
             "shortcutName": "Mono_Pixel Downloader",
             "installerIcon": "logo.png",
-            "uninstallerIcon": "logo.png",
-            "uninstallDisplayName": "Mono_Pixel Downloader"
+            "uninstallerIcon": "logo.png"
         }
     }
 }

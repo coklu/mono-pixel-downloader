@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🎬 MONO_PIXEL_DOWNLOADER
-**A high-fidelity, minimalist YouTube downloader crafted for the digital void.**
+**Minimalist. High-Fidelity. 1-Bit Aesthetic.**
 
 [![Release](https://img.shields.io/github/v/release/coklu/mono-pixel-downloader?color=white&label=VERSION&style=for-the-badge)](https://github.com/coklu/mono-pixel-downloader/releases)
 [![Platform](https://img.shields.io/badge/PLATFORM-WINDOWS-black?style=for-the-badge)](https://github.com/coklu/mono-pixel-downloader/releases)
@@ -9,53 +9,48 @@
 
 ---
 
-"In a world of excessive noise, we return to the root of binary logic. One or Zero. Black or White."
+### **v1.0.0 | The First Deployment**
+Mono_Pixel Downloader is a high-quality video and audio extraction tool designed with a unique 1-bit retro aesthetic. It strips away the digital noise to provide a focused, high-performance downloading experience.
 
 </div>
 
-## 🕹️ Features
+## 🕹️ Key Features
 
-- **High-Fidelity Output**: Support for up to 4K UHD video downloads (MP4).
-- **Audio Extraction**: Seamless conversion to MP3, OPUS, and AAC.
-- **Visual Assets**: Download full-resolution thumbnails in WebP format.
-- **Retro Aesthetic**: Unique 1-bit pixel-art user interface.
-- **Dynamic Soundscape**: 8-bit synthesizer audio feedback for every action.
-- **Embedded Logic**: Built on Electron with a high-performance `yt-dlp` and `ffmpeg` engine.
-- **Portable & Setup**: Available as both a single-file portable executable and a standard installer.
+- 💎 **High-Quality Video**: Capture streams up to 4K UHD (MP4 format).
+- 🎵 **Crystal Clear Audio**: Extract to MP3, OPUS, or AAC with maximum bitrate.
+- 🖼️ **Asset Extraction**: Download full-resolution YouTube thumbnails in WebP.
+- 🎨 **Minimalist Design**: A hand-crafted pixel-art interface that feels like a vintage arcade machine.
+- 🔊 **8-Bit Feedback**: Integrated synthesizer sound effects for system interactions.
+- 📦 **Zero Installation**: Available as a **Portable** executable (run anywhere) or a standard **Installer**.
 
-## 🚀 Quick Start
+## 🚀 How to Use
 
-1. Go to the [Releases](https://github.com/coklu/mono-pixel-downloader/releases) page.
-2. Download `Mono_Pixel_Downloader_Setup.exe` (for installation) or `Mono_Pixel_Downloader_Portable.exe` (for one-time use).
-3. Paste a YouTube URL, analyze, and ingest the stream.
+1. Head to the **[Official Releases](https://github.com/coklu/mono-pixel-downloader/releases)**.
+2. Download `Mono_Pixel_Downloader_Setup.exe` or `Portable.exe`.
+3. Paste any YouTube URL into the input field.
+4. Choose your quality and click **INGEST**.
 
-## 🛠️ Development
+## 🛠️ Build from Source
 
-If you wish to build the system from source:
+For developers who wish to tinker with the binary void:
 
 ```bash
 # Clone the repository
 git clone https://github.com/coklu/mono-pixel-downloader.git
 
-# Install dependencies
+# Install core dependencies
 npm install
 
-# Run in development mode
+# Launch development environment
 npm run electron:dev
 
-# Build the distribution
+# Compile distribution binaries
 npm run electron:build
 ```
-
-## 📜 Manifesto
-
-Mono_Pixel is more than a tool; it's a statement against digital bloat. We remove distractions to leave only function and the pixel. 
-
-> [!TIP]
-> Try entering `piracyisright` in the ingest field to access the internal system terminal.
 
 ---
 
 <div align="center">
-  <sub>Developed in the void by <b>Mono Pixel</b> // © 198X-202X</sub>
+  <sub>Managed by <b>Mono Pixel</b> // © 2024-2025</sub><br>
+  <i>"Removing distractions to leave only function and the pixel."</i>
 </div>
