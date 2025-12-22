@@ -31,7 +31,7 @@ export async function startDownload(req: DownloadRequest, out: string, onUpdate:
                 await downloadThumbnail(info.thumbnail, info.id, out);
             } else if (req.type === 'audio') {
                 const tmp = path.join(TEMP_DIR, `${info.id}_a_${Date.now()}.webm`);
-                await runYtdlpDownload(['-f', 'bestaudio', '-o', tmp, req.url], (p) => onUpdate({ status: 'downloading', progress: p * 0.5 }));
+                await runYtdlpDownload(['--no-playlist', '-f', 'bestaudio', '-o', tmp, req.url], (p) => onUpdate({ status: 'downloading', progress: p * 0.5 }));
                 onUpdate({ status: 'transcoding', progress: 50 });
                 await transcodeAudio(tmp, out, req.format, req.quality, (p) => onUpdate({ status: 'transcoding', progress: 50 + p * 0.5 }));
                 cleanupTempFiles(tmp);
@@ -41,13 +41,16 @@ export async function startDownload(req: DownloadRequest, out: string, onUpdate:
                 const tmpA = path.join(TEMP_DIR, `${info.id}_a_${Date.now()}.webm`);
 
                 // Stage 1: Video (85% of total work)
+                // Fallback to 'best' (combined) if 'bestvideo' (video-only) is unavailable.
+                // Added width check for vertical videos (Shorts) where 1080p means 1080px width (1920px height).
+                const h = parseInt(quality);
                 onUpdate({ status: 'downloading-video', progress: 0, actualQuality: quality });
-                await runYtdlpDownload(['-f', `bestvideo[height<=${parseInt(quality)}]`, '-o', tmpV, req.url],
+                await runYtdlpDownload(['--no-playlist', '-f', `bestvideo[height<=${h}]/bestvideo[width<=${h}]/best[height<=${h}]/best[width<=${h}]/best`, '-o', tmpV, req.url],
                     (p) => onUpdate({ status: 'downloading-video', progress: p * 0.85, actualQuality: quality }));
 
                 // Stage 2: Audio (10% of total work)
                 onUpdate({ status: 'downloading-audio', progress: 85, actualQuality: quality });
-                await runYtdlpDownload(['-f', 'bestaudio', '-o', tmpA, req.url],
+                await runYtdlpDownload(['--no-playlist', '-f', 'bestaudio', '-o', tmpA, req.url],
                     (p) => onUpdate({ status: 'downloading-audio', progress: 85 + (p * 0.10), actualQuality: quality }));
 
                 // Stage 3: Muxing/Transcoding (Final 5%)

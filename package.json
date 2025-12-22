@@ -1,7 +1,7 @@
 {
     "name": "mono-pixel-downloader",
     "private": true,
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A high-quality YouTube video downloader with 4K support.",
     "author": "Mono Pixel",
     "type": "module",

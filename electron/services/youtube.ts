@@ -5,6 +5,26 @@ import { getBinaryPath } from './binaries.js';
 
 const QUALITY_ORDER: VideoQuality[] = ['2160p', '1440p', '1080p', '720p', '480p', '360p', '240p', '144p'];
 
+function collectQualityCandidates(formats: any[]): Set<number> {
+    const candidates = new Set<number>();
+    for (const f of formats) {
+        if (typeof f.height === 'number') candidates.add(f.height);
+        if (typeof f.width === 'number') candidates.add(f.width);
+        if (typeof f.format_note === 'string') {
+            const match = f.format_note.match(/(\d{3,4})p/i);
+            if (match) candidates.add(parseInt(match[1], 10));
+        }
+        if (typeof f.resolution === 'string') {
+            const resMatch = f.resolution.match(/(\d{2,5})x(\d{2,5})/);
+            if (resMatch) {
+                candidates.add(parseInt(resMatch[1], 10));
+                candidates.add(parseInt(resMatch[2], 10));
+            }
+        }
+    }
+    return candidates;
+}
+
 function runYtdlp(args: string[]): Promise<any> {
     const binary = getBinaryPath('yt-dlp');
     console.log(`[YouTube] Running: ${binary} ${args.join(' ')}`);
@@ -76,14 +96,15 @@ export async function getVideoInfo(url: string): Promise<VideoInfo> {
     ];
 
     const info = await runYtdlp(optimizedArgs);
-    const formats = (info.formats || []).filter((f: any) => f.format_id && (f.vcodec !== 'none' || f.acodec !== 'none'))
+    const rawFormats = Array.isArray(info.formats) ? info.formats : [];
+    const formats = rawFormats.filter((f: any) => f.format_id && (f.vcodec !== 'none' || f.acodec !== 'none'))
         .map((f: any) => ({
             formatId: f.format_id, ext: f.ext, quality: f.format_note, resolution: f.resolution,
             fps: f.fps, vcodec: f.vcodec, acodec: f.acodec, filesize: f.filesize, abr: f.abr, vbr: f.vbr
         }));
-    const heights = new Set<number>(info.formats.map((f: any) => f.height).filter(Boolean));
-    const availableQualities = QUALITY_ORDER.filter(q => heights.has(parseInt(q)));
-    const audioBitrates = Array.from(new Set<number>(info.formats.map((f: any) => Math.round(f.abr)).filter(Boolean))).sort((a, b) => b - a);
+    const qualityCandidates = collectQualityCandidates(rawFormats);
+    const availableQualities = QUALITY_ORDER.filter(q => qualityCandidates.has(parseInt(q, 10)));
+    const audioBitrates = Array.from(new Set<number>(rawFormats.map((f: any) => Math.round(f.abr)).filter(Boolean))).sort((a, b) => b - a);
     return {
         id: info.id, title: info.title, description: info.description, duration: info.duration,
         thumbnail: info.thumbnail, uploader: info.uploader, uploadDate: info.upload_date,
@@ -93,6 +114,9 @@ export async function getVideoInfo(url: string): Promise<VideoInfo> {
 
 export function findBestVideoQuality(avail: VideoQuality[], req: string): VideoQuality | null {
     const normalized = req.toLowerCase().replace('p', '') + 'p';
+    if (!avail.length) {
+        return QUALITY_ORDER.includes(normalized as VideoQuality) ? (normalized as VideoQuality) : null;
+    }
     if (avail.includes(normalized as VideoQuality)) return normalized as VideoQuality;
     const idx = QUALITY_ORDER.indexOf(normalized as VideoQuality);
     if (idx === -1) return avail[0] || null;
